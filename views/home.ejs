@@ -1,0 +1,47 @@
+<%- include("./Partials/head.ejs") %>
+<body>
+    <%- include("./Partials/nav.ejs") %>
+    <div id="screen">
+        <div id="left">
+            
+            <p style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;" >Add tasks to your list by typing to the right and press enter.
+                You may view the pending tasks below.
+            </p>
+            <div class="container task mt-3 row row-cols" id="task">
+                <% if (locals.result) { %>
+                    <% for (let i = 0; i < locals.result.length; i++) { %>
+                        <div id=<%= locals.result[i]._id %> class="card task-container mt-3" style="width: 18rem;border:black solid;border-radius: 5px;">
+                            
+                                <% if (locals.result[i].ImageURL) { %>
+                                    <img src="<%= locals.result[i].ImageURL %>" class="card-img-top mt-5">
+                                <% } %>
+                                <div class="card-body">
+                                    <input type="checkbox" class="checkbox" id="checkbox" <% if (locals.result[i].isCompleted) { %> checked<% } %> >
+                                    <input  class="card-text input1 hover" value="<%= locals.result[i].text %> " <% if(locals.result[i].isCompleted) { %>style="text-decoration: line-through;"" <% } %>>
+                                    <p><%= locals.result[i].createdAt.getDate() %>:<%= locals.result[i].createdAt.getMonth() %>:<%= locals.result[i].createdAt.getFullYear() %></p>
+                                </div>
+                                <button class="btn btn-danger deletetask">Delete</button>
+                        </div>
+                        
+                        
+                    <% } %>
+                <% } %>
+            </div>
+        </div>
+        <div id="right">
+            <div id="content">
+                <form method="POST" enctype="multipart/form-data">
+                    <div class="mb-3 ImageContainer">
+                        <input type="file" id="Image"  name="Image"/>
+                    </div>
+                    <div class="mb-3">
+                        <input type="text" placeholder="I need to ..." id="input" name="text"></input>
+                    </div>
+                    <button type="submit" class="btn btn-primary" id="add">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <%- include("./Partials/script.ejs") %>
+    </body>
+</html>
